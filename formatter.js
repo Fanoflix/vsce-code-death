@@ -1,42 +1,44 @@
 const fs = require("fs");
-const path = require("path");
 
-const identifiersFilePath = path.join(__dirname, "/tests/", "identifiers.txt");
-const tagsFilePath = path.join(__dirname, "/tests/", "picked-tags.txt");
-
-// Clearing Files
-fs.truncate(identifiersFilePath, 0, () => {
-  console.log("Cleared identifiers.txt");
-});
-fs.truncate(tagsFilePath, 0, () => {
-  console.log("Cleared picked-tags.txt");
+var lineReader = require("readline").createInterface({
+  input: require("fs").createReadStream("index.html"),
 });
 
-const file = fs.readFile("index.html", (err, buffer) => {
-  if (!err) {
-    let sample = buffer.toString();
-    const noOfLines = sample.split('\n').length;
-    const tags = sample.match(/<[^!][^>]*>/gi);
+let i = 1;
+let index = 1;
+let lines = 1;
 
-    for (classes of tags) {
-      // if an open tag is found opening tag push to stack
-      // ... if another opening tag is found, push to stack
-      // ... else if closing tag is found pop from stack
-      // ...... if only stack length() == 1, and closing tag is found -- lambi logic
+const openingTags = /<[^/|^!][^>]*>/gi;
+const closingTags = /<\/[^>]*>*/gi;
+const findClass = /(class|id)(=)("|')[^("|')]+("|')/gi;
+let array = [];
 
-      let identifiers = classes.match(/(class|id)(=)("|')[^("|')]+("|')/gi) + "\n";
+// WITH IF (Smaller Array)
+lineReader.on("line", function (line) {
+  let obj = {
+    openingTag: line.match(openingTags),
+    closingTag: line.match(closingTags),
+    lineNumber: lines,
+    class: line.match(findClass),
+    // index,
+  };
 
-      // Writing "tags" to testing file for Debugging
-      fs.appendFile(tagsFilePath, classes + '\n', () => {
-        if (err) throw err;
-      });
+  // if both openingtag and closingtag is truthy, comment the shit out
 
-      // Writing "identifiers" to testing file for Debugging
-      if (identifiers !== "null\n") {
-        fs.appendFile(identifiersFilePath, identifiers, () => {
-          if (err) throw err;
-        });
-      }
-    }
+  // if array[array.length] == closingTag && array[array.length-1] == opening
+
+  array.push(obj);
+
+  // function writeToFile (linenumber, data)
+
+  lines++;
+});
+
+lineReader.on("close", () => {
+  console.log("Done");
+  for (item of array) {
+    console.log(
+      "Line #: " + item.lineNumber + " Tag:  " + item.openingTag + ' ' + item.closingTag + " Com at LN: --> " + item.lineNumber
+    );
   }
 });

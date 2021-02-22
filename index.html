@@ -11,7 +11,7 @@
     
 <div class="nav-main">
     <!-- logo + link component -->
-    <the-logo id='the-logo item-margin'></the-logo>
+    <the-logo class="bruh" id='the-logo item-margin'></the-logo>
 
     <!-- Categories Drop down -->
     <the-categories class="small-text"></the-categories>
@@ -20,11 +20,7 @@
     <the-search-bar class="the-search item-margin"></the-search-bar>
 
     <!-- Business,  Instructor, My Learning + Drop Down -->
-    <div
-    class="business small-text"
-    @mouseover="loadBusiness"
-    @mouseleave="businessIsHovered = false"
-    >
+    <div class="business small-text" @mouseover="loadBusiness" @mouseleave="businessIsHovered = false">
     Udemy for Business
     </div>
     <business v-if="businessIsHovered"></business>
@@ -44,9 +40,5 @@
 <div class="nav-extension">
     <!-- Quick topics (links + drop down) -->
 </div>
-
-
 </body>
-
-<script src="formatter.js"></script>
 </html>

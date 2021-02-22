@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-fs.readFile("index.html", (err, buffer) => {
+fs.readFile("index2.html", (err, buffer) => {
   if (err) {
     console.log(err);
     return;

@@ -1,12 +1,35 @@
+null
+null
+null
+null
+null
+null
+null
 class="nav-main"
-id='the-logo item-margin'
+class="bruh",id='the-logo item-margin'
+null
 class="small-text"
+null
 class="the-search item-margin"
+null
 class="business small-text"
+null
+null
+null
 class="instructor item-margin small-text"
+null
 class="item-margin small-text"
+null
 class="item-margin cart"
+null
 class="item-margin heart"
+null
 class="item-margin notify"
+null
 id="profile"
+null
+null
 class="nav-extension"
+null
+null
+null
