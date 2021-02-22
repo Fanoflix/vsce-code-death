@@ -1,6 +1,17 @@
-  <div class="nav-main">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+    
+<div class="nav-main">
     <!-- logo + link component -->
-    <the-logo class="the-logo item-margin"></the-logo>
+    <the-logo id='the-logo item-margin'></the-logo>
 
     <!-- Categories Drop down -->
     <the-categories class="small-text"></the-categories>
@@ -9,14 +20,17 @@
     <the-search-bar class="the-search item-margin"></the-search-bar>
 
     <!-- Business,  Instructor, My Learning + Drop Down -->
-    <div class="business small-text" @mouseover="loadBusiness" @mouseleave="businessIsHovered = false">Udemy for Business</div>
+    <div
+    class="business small-text"
+    @mouseover="loadBusiness"
+    @mouseleave="businessIsHovered = false"
+    >
+    Udemy for Business
+    </div>
     <business v-if="businessIsHovered"></business>
-    
-    
-    
+
     <a href="#" class="instructor item-margin small-text">Instructor</a>
     <my-learning class="item-margin small-text">My Learning</my-learning>
-
 
     <!-- Quick Access Items x3 -->
     <div class="item-margin cart">🛒</div>
@@ -24,10 +38,15 @@
     <div class="item-margin notify">❗</div>
 
     <!-- Profile Picture + Profile Dropdown -->
-    <profile class="profile" style="margin: 0 0 0 0"></profile>
+    <profile id="profile" style="margin: 0 0 0 0"></profile>
+</div>
 
-  </div>
-
-  <div class="nav-extension">
+<div class="nav-extension">
     <!-- Quick topics (links + drop down) -->
-  </div>
+</div>
+
+
+</body>
+
+<script src="formatter.js"></script>
+</html>

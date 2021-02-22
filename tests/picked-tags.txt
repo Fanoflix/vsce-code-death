@@ -1,0 +1,41 @@
+<html lang="en">
+<meta charset="UTF-8" />
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<div class="nav-main">
+<the-logo id='the-logo item-margin'>
+</the-logo>
+<the-categories class="small-text">
+</the-categories>
+<the-search-bar class="the-search item-margin">
+</the-search-bar>
+<div
+    class="business small-text"
+    @mouseover="loadBusiness"
+    @mouseleave="businessIsHovered = false"
+    >
+</div>
+<business v-if="businessIsHovered">
+</business>
+<a href="#" class="instructor item-margin small-text">
+</a>
+<my-learning class="item-margin small-text">
+</my-learning>
+<div class="item-margin cart">
+</div>
+<div class="item-margin heart">
+</div>
+<div class="item-margin notify">
+</div>
+<profile id="profile" style="margin: 0 0 0 0">
+</profile>
+</div>
+<div class="nav-extension">
+</div>
+</body>
+<script src="formatter.js">
+</script>
+</html>

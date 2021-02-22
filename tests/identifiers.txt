@@ -1,0 +1,12 @@
+class="nav-main"
+id='the-logo item-margin'
+class="small-text"
+class="the-search item-margin"
+class="business small-text"
+class="instructor item-margin small-text"
+class="item-margin small-text"
+class="item-margin cart"
+class="item-margin heart"
+class="item-margin notify"
+id="profile"
+class="nav-extension"
