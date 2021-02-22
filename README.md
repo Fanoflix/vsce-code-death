@@ -1,2 +1,2 @@
 # vsce-code-death
- A VsCode Extension that formats HTML according to best practices
+ A VsCode Extension adds Quality of Life comments in HTML according to best practices.
