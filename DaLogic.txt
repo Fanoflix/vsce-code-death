@@ -1,0 +1,22 @@
+if (opneingTag && !closingTag)
+ array.push({
+	tag: div,
+	class: class 
+  })
+
+else if (openingTag && closingTag) {
+ write commment: classOrId
+}
+else if (!openingTag && closingTag) {
+ if (array[2nd last item].class != null) {
+   write comment: array[2nd last item].class;
+ }
+ array.pop()
+}
+else if (multi line wala case)
+	
+
+
+
+
+
