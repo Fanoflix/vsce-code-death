@@ -5,42 +5,53 @@ var lineReader = require('readline').createInterface({
 });
 
 let i = 1;
-let residualLine = 0;
-let residualLineLength = 1;
-let residue = '';
+let residueArray = [];
+let residue = {
+  residueText: '',
+  residualLine: 0,
+  residualLineLength: 1,
+};
 let residualTest = false;
 
 lineReader.on('line', function (line) {
   if (!residualTest && /</g.test(line) && !/>/g.test(line)) {
-    residue = residue + line;
+    residue['residueText'] += line;
+    residue['residualLine'] = i;
     residualTest = true;
-    residualLine = i;
   } else if (residualTest && !/>/g.test(line)) {
-    residualLineLength += 1;
-    residue = residue + ' ' + line.trim();
+    residue['residualLineLength'] += 1;
+    residue['residueText'] += ' ' + line.trim();
   } else if (residualTest && />/g.test(line)) {
-    residualLineLength += 1;
-    residue = residue + ' ' + line.trim();
+    residue['residualLineLength'] += 1;
+    residue['residueText'] += ' ' + line.trim();
     residualTest = false;
+    residueArray.push(residue);
+    residue = {
+      residueText: '',
+      residualLine: 0,
+      residualLineLength: 1,
+    };
   }
   i++;
 });
 
 lineReader.on('close', () => {
-  console.log(residue);
-  console.log(residualLine);
-  console.log(residualLineLength);
-  fs.readFile('index.html', (err, buffer) => {
+  fs.readFile('index.html', (_, buffer) => {
     const data = buffer.toString();
     const dataLines = data.split('\n');
-    for (
-      let i = residualLine - 1;
-      i < residualLine - 1 + residualLineLength;
-      i++
-    ) {
-      dataLines[i] = '';
+    for (let residue of residueArray) {
+      console.log(residue.residueText);
+      console.log(residue.residualLine);
+      console.log(residue.residualLineLength);
+      for (
+        let i = residue.residualLine - 1;
+        i < residue.residualLine - 1 + residue.residualLineLength;
+        i++
+      ) {
+        dataLines[i] = '';
+      }
+      dataLines[residue.residualLine] = residue.residueText + '\n';
     }
-    dataLines[residualLine - 1] = residue + '\n';
     const concatData = dataLines.join('');
     fs.writeFile('test_reshape_2.html', concatData, () => {});
   });
