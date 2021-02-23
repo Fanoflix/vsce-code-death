@@ -9,7 +9,6 @@ let residualLine = 0;
 let residualLineLength = 1;
 let residue = '';
 let residualTest = false;
-let nonResidue = '';
 
 lineReader.on('line', function (line) {
   if (!residualTest && /</g.test(line) && !/>/g.test(line)) {
@@ -21,8 +20,7 @@ lineReader.on('line', function (line) {
     residue = residue + ' ' + line.trim();
   } else if (residualTest && />/g.test(line)) {
     residualLineLength += 1;
-    residue = residue + ' ' + line.trim().match(/>/);
-    nonResidue = nonResidue + line.trim().match(/(?<=>)[^\n]+/);
+    residue = residue + ' ' + line.trim();
     residualTest = false;
   }
   i++;
@@ -43,8 +41,7 @@ lineReader.on('close', () => {
       dataLines[i] = '';
     }
     dataLines[residualLine - 1] = residue + '\n';
-    dataLines[residualLine] = nonResidue + '\n\t';
     const concatData = dataLines.join('');
-    fs.writeFile('test_reshape.html', concatData, () => {});
+    fs.writeFile('test_reshape_2.html', concatData, () => {});
   });
 });
