@@ -1,15 +1,15 @@
-const fs = require('fs');
+const fs = require("fs");
 
 const extractClassId = (foundClass) => {
   return foundClass.map((classOrId) => {
     let result = [];
-    let keyvalue = classOrId.split('=');
-    if (keyvalue[0] == 'id') {
-      return '#'.concat(keyvalue[1].replace(/\"|\'/g, ''));
-    } else if (keyvalue[0] == 'class') {
-      let classes = keyvalue[1].split(' ');
+    let keyvalue = classOrId.split("=");
+    if (keyvalue[0] == "id") {
+      return "#".concat(keyvalue[1].replace(/\"|\'/g, ""));
+    } else if (keyvalue[0] == "class") {
+      let classes = keyvalue[1].split(" ");
       for (let clas of classes) {
-        result.push('.'.concat(clas.replace(/\"|\'/g, '')));
+        result.push(".".concat(clas.replace(/\"|\'/g, "")));
       }
       return result;
     }
@@ -17,15 +17,15 @@ const extractClassId = (foundClass) => {
 };
 
 const commentAndSave = (data, tags, index) => {
-  let comment = `<!--${tags.toString()}-->\n ${index.toString()}`;
+  let comment = `<!--${tags.toString()}--> ${index.toString()}`;
   console.log(comment);
-  comment = comment.split(' ');
-  data[comment[1]] = data[comment[1]].replace('\r', '');
-  data[comment[1]] += comment[0].split(',').join(' ');
-  fs.writeFile('./commentTest.html', data.join(''), () => {});
+  comment = comment.split(" ");
+  data[comment[1]] = data[comment[1]].replace("\r", "");
+  data[comment[1]] += comment[0].split(",").join(" ");
+  fs.writeFile("./commentTest.html", data.join("\n"), () => {});
 };
 
-fs.readFile('index.html', (err, buffer) => {
+fs.readFile("index.html", (err, buffer) => {
   if (err) {
     console.log(err);
     return;
@@ -36,24 +36,25 @@ fs.readFile('index.html', (err, buffer) => {
   let classCompleteRegex = /(?<=<[^/]*)(class|id)(=)("|')[^("|')]+("|')/g;
   let classPartialRegex = /(class|id)(=)("|')[^("|')]+("|')/g;
   let tags = [];
-  let openingTag = '';
-  let closingTag = '';
+  let openingTag = "";
+  let closingTag = "";
   let closingTagLine = 0;
   let classStack = [];
   //   Main Algo
   let data = buffer.toString();
-  data = data.split('\n');
+  data = data.split("\n");
   for (let index = 0; index < data.length; index++) {
     //   console.log(data[index])
     openingTag = data[index].match(openingTagRegex);
     closingTag = data[index].match(closingTagRegex);
-    if (openingTag && closingTag) {
-      const foundClass = data[index].match(classCompleteRegex);
-      if (foundClass) {
-        tags = extractClassId(foundClass);
-      }
-      closingTagLine = index;
-    } else if (/</g.test(data[index]) && !/>/g.test(data[index])) {
+    // if (openingTag && closingTag) {
+    //   const foundClass = data[index].match(classCompleteRegex);
+    //   if (foundClass) {
+    //     tags = extractClassId(foundClass);
+    //   }
+    //   closingTagLine = index;
+    // } else
+    if (/</g.test(data[index]) && !/>/g.test(data[index])) {
       let foundClass = [];
       closingTagLine = 0;
       while (!closingTagRegex.test(data[index + closingTagLine])) {
