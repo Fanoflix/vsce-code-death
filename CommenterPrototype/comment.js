@@ -39,6 +39,7 @@ fs.readFile('index.html', (err, buffer) => {
   let openingTag = '';
   let closingTag = '';
   let closingTagLine = 0;
+  let classStack = [];
   //   Main Algo
   let data = buffer.toString();
   data = data.split('\n');
@@ -68,6 +69,18 @@ fs.readFile('index.html', (err, buffer) => {
         tags = extractClassId(foundClass);
       }
       closingTagLine += index;
+    } else if (openingTag && !closingTag) {
+      const foundClass = data[index].match(classCompleteRegex);
+      if (foundClass) {
+        tags = extractClassId(foundClass);
+      }
+      classStack.push(tags);
+      continue;
+    } else if (!openingTag && closingTag) {
+      tags = classStack.pop();
+      closingTagLine = index;
+    } else {
+      continue;
     }
     if (tags && tags.length > 0) {
       commentAndSave(data, tags, closingTagLine);
