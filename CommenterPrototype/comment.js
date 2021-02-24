@@ -1,10 +1,9 @@
 const fs = require('fs');
 
-const openingTagRegex = /<[^/][^>]+>/g;
+const openingTagRegex = /<[^/|^!][^>]+[^/]>/g;
 const closingTagRegex = /<[/][^>]+>/g;
 const classCompleteRegex = /(?<=<[^/]*)(class|id)(=)("|')[^("|')]+("|')/g;
 const classPartialRegex = /(class|id)(=)("|')[^("|')]+("|')/g;
-// const commentRegex = /<!--[^>]*-->/g;
 
 const extractClassId = (foundClass) => {
   return foundClass.map((classOrId) => {
@@ -15,7 +14,9 @@ const extractClassId = (foundClass) => {
     } else if (keyvalue[0] == 'class') {
       let classes = keyvalue[1].split(' ');
       for (let clas of classes) {
-        result.push('.'.concat(clas.replace(/\"|\'/g, '')));
+        if (clas !== '') {
+          result.push('.'.concat(clas.replace(/\"|\'/g, '')));
+        }
       }
       return result;
     }
@@ -26,7 +27,7 @@ const commentAndSave = (data, tags, index) => {
   let comment = `<!--${tags.toString()}--> ${index.toString()}`;
   comment = comment.split(' ');
   comment[0] = comment[0].split(',').join(' ');
-  let commentRegex = new RegExp(`${comment[0]}`);
+  let commentRegex = /<!--(\.|#)[^>]*-->/g;
   if (commentRegex.test(data[comment[1]])) {
     data[comment[1]] = data[comment[1]].replace(commentRegex, '');
   }
@@ -77,12 +78,16 @@ fs.readFile('commentTest.html', (err, buffer) => {
         tags = extractClassId(foundClass);
       }
       closingTagLine += index;
+      index = closingTagLine;
     } else if (openingTag && !closingTag) {
       const foundClass = data[index].match(classCompleteRegex);
       if (foundClass) {
         tags = extractClassId(foundClass);
       }
-      classStack.push(tags);
+      if (tags.length > 0) {
+        classStack.push(tags);
+      }
+      tags = [];
       continue;
     } else if (!openingTag && closingTag) {
       tags = classStack.pop();
